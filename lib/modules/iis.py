@@ -25,10 +25,9 @@ class IIS:
     status = ''
     nbytes = ''
     
-    
+	#Define your logformat here" 
     logFormat = "%snaredate %snarehost %snarelog %random %h %l %u %t \"%r\" %>s %b"
     logFormat = logFormat.split(" ")
-    #logKeys = logFormat
     logTable = {
                   '%snaredate' : '(?P<snaredate>\w{3}\s+\d{0,2}\s+\d{2}:\d{2}:\d{2})',
                   '%snarehost' : '(?P<snarehost>\w*)',
@@ -45,7 +44,7 @@ class IIS:
     exploitTable = [
                     '(.)\1{10}',
                     "'",
-                    '\s*or\s*(.)*=\1',
+                    '\s*or\s*(.)*=[\']*\1',
                     'xp_cmdshell',
                     'union\s+select',
                     'file:',
@@ -57,10 +56,24 @@ class IIS:
                     'version\(\)',
                     '/*',
                     '*/',
-                    '--'
+                    '--',
+					'\.ini',
+					'%00',
+					'passwd',
+					'eval\('
                     
     ]
-    for x in logFormat:
+    
+	
+	def parseLine(self, line):
+		returnedLine = line
+		
+	
+	
+	
+#############################################################	
+	
+	for x in logFormat:
         logFormat[logFormat.index(x)] = logTable[x]
     
     logFormat = re.compile('\s+'.join(logFormat))
